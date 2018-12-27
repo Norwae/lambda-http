@@ -52,7 +52,7 @@ class Request {
     val pathHeaders = pathParameters.asScala.map(proxy.PathParameter.tupled)
     val stageHeaders = stageVariables.asScala.map(proxy.StageVariable.tupled)
     val headersRaw =
-      headers.asScala.mapValues(List.apply(_)) ++
+      simpleHeaders.asScala.mapValues(List.apply(_)) ++
       multiValueHeaders.asScala.mapValues(_.asScala.toSeq)
 
     val parsedHeaders = (for {
