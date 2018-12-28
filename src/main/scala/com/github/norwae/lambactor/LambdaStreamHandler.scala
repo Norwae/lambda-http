@@ -38,7 +38,7 @@ abstract class LambdaStreamHandler extends RequestHandler[proxy.Request, proxy.R
   private val runRequest = {
     RunnableGraph.fromGraph({
       type In = (HttpRequest, Promise[HttpResponse])
-      val in = Source.queue[In](0, OverflowStrategy.fail).mapMaterializedValue(runQueued(_))
+      val in = Source.queue[In](0, OverflowStrategy.fail).mapMaterializedValue(runQueued(_) _)
 
       GraphDSL.create(in) { implicit b ⇒ in ⇒
         import GraphDSL.Implicits._
@@ -73,5 +73,4 @@ abstract class LambdaStreamHandler extends RequestHandler[proxy.Request, proxy.R
 
     new proxy.Response(response)
   }
-
 }
